@@ -27,14 +27,8 @@ function AppLayout() {
 }
 
 function App() {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  useEffect(() => {
-    audioRef.current = new Audio('/imgs/song.mp3');
-    audioRef.current.loop = true;
-    audioRef.current.volume = 0.5;
-    audioRef.current.play().catch(() => {});
-  }, []);
+ 
 
   return (
     <Router>
