@@ -1,513 +1,814 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Heart, Calendar, MapPin } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Heart, Calendar, MapPin, Clock } from 'lucide-react';
+import { gsap } from 'gsap'; 
 import CountdownTimer from '../components/CountdownTimer';
 import LangToggle from '../components/LangToggle';
 import { useLang } from '../context/LangContext';
-import rings from '../../public/imgs/rings.png';
+
+// استيراد الصور
 import couplePhoto from '../../public/imgs/eman_salama.png';
+import curtainImg from '../../public/imgs/cover.jpg'; 
+import decorBorder from '../../public/imgs/download.jpg'; 
+import bbgg from '../../public/imgs/bbgg.png'; 
+import image_e94b47 from '../../public/imgs/image_e94b47.jpg'; 
+import image_e8e1b2 from '../../public/imgs/program-white.png'; // استيراد خلفية الفراشات الجديدة لجدول الحفل
+import locationImg from '../../public/imgs/location.jpg';
 
+// تعريف أنواع البيانات
+interface ProgramItem {
+  time: string;
+  title: string;
+  desc: string;
+}
 
+interface Colors {
+  bgLight: string;
+  primary: string;
+  primaryDark: string;
+  accent: string;
+  textMuted: string;
+  borderSoft: string;
+}
 
-const emojis = ['📷', '💍', '🕯️', '🎉'];
+const emojis: string[] = ['📷', '💍', '🕯️', '🎉'];
 
-const HomePage = () => {
-  const [mounted, setMounted] = useState(false);
+const HomePage: React.FC = () => {
+  const [mounted, setMounted] = useState<boolean>(false);
+  const [animationComplete, setAnimationComplete] = useState<boolean>(false);
   const { tr, isRTL } = useLang();
+
+  // Refs للستائر
+  const leftCurtainRef = useRef<HTMLDivElement>(null);
+  const rightCurtainRef = useRef<HTMLDivElement>(null);
+  const curtainContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
+
+    const tl = gsap.timeline({
+      delay: 0.5, 
+      onComplete: () => {
+        setAnimationComplete(true); 
+      }
+    });
+
+    if (leftCurtainRef.current && rightCurtainRef.current && curtainContainerRef.current) {
+      tl.to(leftCurtainRef.current, {
+        duration: 2,
+        ease: 'power2.inOut',
+        xPercent: -100,
+        opacity: 0,
+      }, 0)
+      
+      .to(rightCurtainRef.current, {
+        duration: 2,
+        ease: 'power2.inOut',
+        xPercent: 100,
+        opacity: 0,
+      }, 0)
+      
+      .to(curtainContainerRef.current, {
+        display: 'none',
+        duration: 0
+      });
+    }
+
+    return () => {
+      tl.kill(); 
+    };
   }, []);
 
-  const weddingDate = '2026-08-07T18:00:00';
+  const weddingDate: string = '2026-08-07T18:00:00';
+
+  // ثيم الأبيض والبورغاندي فقط الصافي
+  const colors: Colors = {
+    bgLight: '#ffffff',       // خلفية بيضاء صريحة ومريحة
+    primary: '#6b1224',       // لون بورغاندي أساسي للزفاف
+    primaryDark: '#4a0a17',   // بورغاندي داكن جداً للفخامة والعناوين
+    accent: '#a64b5a',        // بورغاندي متوسط ناعم للتفاصيل والأزرار
+    textMuted: '#555555',     // رمادي داكن للنصوص الطويلة لسهولة القراءة فوق الأبيض
+    borderSoft: 'rgba(107, 18, 36, 0.2)' // إطار بورغاندي خفيف وشفاف بديل للذهبي
+  };
 
   return (
-    <div className="relative" style={{ fontFamily: isRTL ? "'Scheherazade New', serif" : "'Playfair Display', serif", background: '#f5ede4', direction: isRTL ? 'rtl' : 'ltr',
+    <div 
+      className="relative" 
+      style={{
+        fontFamily: isRTL ? "'Scheherazade New', serif" : "'Playfair Display', serif",
+        background: colors.bgLight,
+        color: colors.primary,
+        direction: isRTL ? 'rtl' : 'ltr',
+        overflowX: 'hidden'
+      }}
+    >
+      {/* زر تبديل اللغة */}
+      <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 1001 }}>
+        <LangToggle />
+      </div>
 
+      {/* ── HERO SECTION ── */}
+     {/* ── HERO SECTION ── */}
+     <section
+  className="hero-bg-section"
+  style={{
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: colors.bgLight,
+    padding: '5rem 1.5rem 12rem',
+    position: 'relative',
+    overflow: 'hidden',
+    backgroundImage: `url(${decorBorder})`,
+    backgroundSize: '100% auto', // موبايل: تمد على عرض الشاشة كاملة
+    backgroundPosition: 'bottom center',
+    backgroundRepeat: 'no-repeat',
+  }}
+>
+        {/* حاوية الستائر */}
+        <div 
+          ref={curtainContainerRef}
+          style={{
+            position: 'absolute', 
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: 999,
+            pointerEvents: animationComplete ? 'none' : 'auto', 
+            display: 'flex',
+            overflow: 'hidden'
+          }}
+        >
+          <div 
+            ref={leftCurtainRef}
+            style={{
+              width: '50%',
+              height: '100%',
+              backgroundImage: `url(${curtainImg})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'left center',
+              boxShadow: '10px 0 30px rgba(0,0,0,0.3)',
+              willChange: 'transform, opacity'
+            }}
+          ></div>
+          
+          <div 
+            ref={rightCurtainRef}
+            style={{
+              width: '50%',
+              height: '100%',
+              backgroundImage: `url(${curtainImg})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'right center',
+              boxShadow: '-10px 0 30px rgba(0,0,0,0.3)',
+              willChange: 'transform, opacity'
+            }} 
+          ></div>
+        </div>
 
-     }}>
+        {/* قلوب متساقطة */}
+        {[8, 22, 38, 52, 68, 78, 92].map((left: number, i: number) => (
+          <div
+            key={i}
+            style={{
+              position: 'fixed',
+              left: `${left}%`,
+              top: '-30px',
+              fontSize: i % 2 === 0 ? '20px' : '16px',
+              color: colors.accent,
+              opacity: 0.25,
+              animation: `fall ${6 + i}s linear infinite`,
+              animationDelay: `${i * 0.8}s`,
+              userSelect: 'none',
+              pointerEvents: 'none',
+              zIndex: 95,
+            }}
+          >
+            ♥
+          </div>
+        ))}
 
-      {/* Lang Toggle - fixed top right */}
-<div style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 1001 }}>
-  <LangToggle />
-</div>
-
-      {/* ── HERO ── */}
-      <section
-        style={{
-          minHeight: '100vh',
+        {/* حاوية المحتوى الداخلي لضمان ثبات النص في المنتصف وبحجم مثالي دائماً */}
+        <div style={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          background: '#f5ede4',
-          padding: '2rem 1rem',
-          position: 'relative',
-          overflow: 'hidden',
-        }}
-      >
-     {/* Falling hearts */}
-{[5, 15, 25, 35, 50, 62, 75, 88].map((left, i) => (
-  <div
-    key={i}
-    style={{
-      position: 'fixed',
-      left: `${left}%`,
-      top: '-30px',
-      fontSize: i % 2 === 0 ? '22px' : '19px',
-      color: '#c9956b',
-      opacity: 0.4,
-      animation: `fall ${7 + i}s linear infinite`,
-      animationDelay: `${i * 0.9}s`,
-      userSelect: 'none',
-      pointerEvents: 'none',
-      zIndex: 999,
-    }}
-  >
-    ♥
-  </div>
-))}
-
-        {/* Rings icon */}
-<div
+          flex: 1,
+          marginTop: '-4rem', // رفع النص قليلاً ليعطي مساحة أكبر للورد في الأسفل
+          zIndex: 11
+        }}>
+   <p
   style={{
-    marginBottom: '2rem',
+    fontSize: '18px',
+    fontStyle: 'italic',
+    color: colors.primary,
+    marginBottom: '0.4rem',
+    textAlign: 'center',
+    maxWidth: '300px',
+    margin: '0 auto 4.5rem',
+    position: 'relative',
+    zIndex: 999,
     opacity: mounted ? 1 : 0,
-    transform: mounted ? 'translateY(0)' : 'translateY(20px)',
-    transition: 'all 1s ease 0.1s',
+    transform: mounted ? 'translateY(0)' : 'translateY(25px)',
+    transition: 'all 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s',
   }}
 >
-  <img
-    src={rings}
-    alt="rings"
-    style={{ width: '80px', height: 'auto' }}
-  />
-</div>
+  {tr.home.invitation}
+  <br />
+</p>
 
-        {/* Invitation text */}
-        <p
-          style={{
-            fontSize: '13px',
-            letterSpacing: isRTL ? '0.1em' : '0.25em',
-            color: '#7c4a2d',
-            textTransform: 'uppercase',
-            marginBottom: '1rem',
-            opacity: mounted ? 1 : 0,
-            transform: mounted ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'all 1s ease 0.3s',
-            textAlign: 'center',
-          }}
-        >
-          {tr.home.invitation}
-        </p>
-
-        {/* from */}
-        <p
-          style={{
-            fontSize: '18px',
-            fontStyle: 'italic',
-            color: '#4a2512',
-            marginBottom: '0.5rem',
-            opacity: mounted ? 1 : 0,
-            transform: mounted ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'all 1s ease 0.4s',
-          }}
-        >
-          {tr.home.from}
-        </p>
-
-        {/* Names */}
-        <div
-          style={{
-            textAlign: 'center',
-            marginBottom: '1.5rem',
-            opacity: mounted ? 1 : 0,
-            transform: mounted ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'all 1s ease 0.6s',
-          }}
-        >
-          <h1
+          <div
             style={{
-              fontFamily: isRTL ? "'Noto Nastaliq Urdu', serif" : "'Playfair Display', serif",
-              lineHeight: isRTL ? 1.8 : 1,
-              fontSize: 'clamp(48px, 12vw, 80px)',
-              fontStyle: 'italic',
-              fontWeight: 700,
-              color: '#4a2512',
-              margin: 0,
+              textAlign: 'center',
+              marginBottom: '1.8rem',
+              opacity: mounted ? 1 : 0,
+              transform: mounted ? 'translateY(0)' : 'translateY(25px)',
+              transition: 'all 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s',
             }}
           >
-                      {tr.home.salama}
-
-            
-          </h1>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', margin: '12px 0' }}>
-            <span style={{ width: '60px', height: '1px', background: '#c9956b' }} />
-            <Heart style={{ width: '20px', height: '20px', color: '#c9956b', fill: '#c9956b' }} />
-            <span style={{ width: '60px', height: '1px', background: '#c9956b' }} />
-          </div>
-          <h1
-            style={{
-              fontFamily: isRTL ? "'Noto Nastaliq Urdu', serif" : "'Playfair Display', serif",
-              lineHeight: isRTL ? 1.8 : 1,
-              fontSize: 'clamp(48px, 12vw, 80px)',
-              fontStyle: 'italic',
-              fontWeight: 700,
-              color: '#4a2512',
-              margin: 0,
-            }}
-          >
-            {tr.home.eman}
-          </h1>
-        </div>
-
-        {/* Date & Location */}
-        <div
-          style={{
-            textAlign: 'center',
-            marginBottom: '2rem',
-            opacity: mounted ? 1 : 0,
-            transform: mounted ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'all 1s ease 0.8s',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginBottom: '8px',fontWeight:900 }}>
-            <Calendar style={{ width: '16px', height: '16px', color: '#7c4a2d' }} />
-            <p style={{ fontSize: '13px', letterSpacing: '0.25em', color: '#7c4a2d', textTransform: 'uppercase', margin: 0 }}>
-              {tr.home.mindate}
-            </p>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',fontWeight:900 }}>
-            <MapPin style={{ width: '16px', height: '16px', color: '#7c4a2d' }} />
-            <a
-              href="https://maps.google.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ fontSize: '13px', letterSpacing: '0.25em', color: '#7c4a2d', textTransform: 'uppercase', textDecoration: 'none' }}
+            <h1
+              style={{
+                fontFamily: isRTL ? "'Noto Nastaliq Urdu', serif" : "'Playfair Display', serif",
+                lineHeight: isRTL ? 1.9 : 1.1,
+                fontSize: 'clamp(46px, 6vw, 70px)', // تقليل الحد الأقصى للمتصفحات الكبيرة لتظل أنيقة
+                fontStyle: 'italic',
+                fontWeight: 700,
+                color: colors.primaryDark,
+                margin: 0,
+                textShadow: '1px 1px 1px rgba(255,255,255,0.8)'
+              }}
             >
-              {tr.home.location}
-            </a>
+              {tr.home.ahmed}
+            </h1>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '20px', margin: '14px 0' }}>
+              <span style={{ 
+                width: '50px', 
+                height: '1.2px', 
+                background: `linear-gradient(${isRTL ? 'to left' : 'to right'}, transparent, ${colors.accent})` 
+              }} />
+              <Heart style={{ 
+                width: '18px', 
+                height: '18px', 
+                color: colors.primary, 
+                fill: colors.primary, 
+                animation: 'pulse 2s infinite' 
+              }} />
+              <span style={{ 
+                width: '50px', 
+                height: '1.2px', 
+                background: `linear-gradient(${isRTL ? 'to right' : 'to left'}, transparent, ${colors.accent})` 
+              }} />
+            </div>
+            <h1
+              style={{
+                fontFamily: isRTL ? "'Noto Nastaliq Urdu', serif" : "'Playfair Display', serif",
+                lineHeight: isRTL ? 1.9 : 1.1,
+                fontSize: 'clamp(46px, 6vw, 70px)',
+                fontStyle: 'italic',
+                fontWeight: 700,
+                color: colors.primaryDark,
+                margin: 0,
+                textShadow: '1px 1px 1px rgba(255,255,255,0.8)'
+              }}
+            >
+              {tr.home.asmaa}
+            </h1>
+          </div>
+
+          <div
+            style={{
+              textAlign: 'center',
+              opacity: mounted ? 1 : 0,
+              transform: mounted ? 'translateY(0)' : 'translateY(25px)',
+              transition: 'all 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.9s',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '12px', fontWeight: 800 }}>
+              <Calendar style={{ width: '15px', height: '15px', color: colors.primary }} />
+              <p style={{ fontSize: '12.5px', letterSpacing: '0.2em', color: colors.primary, textTransform: 'uppercase', margin: 0 }}>
+                {tr.home.mindate}
+              </p>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 800 }}>
+              <MapPin style={{ width: '15px', height: '15px', color: colors.primary }} />
+              <a
+                href="https://maps.google.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ 
+                  fontSize: '12.5px', 
+                  letterSpacing: '0.2em', 
+                  color: colors.primary, 
+                  textTransform: 'uppercase', 
+                  textDecoration: 'none', 
+                  // borderBottom: `1px dashed ${colors.accent}` 
+                }}
+              >
+                {tr.home.location}
+              </a>
+            </div>
           </div>
         </div>
 
-        {/* Countdown */}
-        <div
-          style={{
-            marginBottom: '2.5rem',
-            opacity: mounted ? 1 : 0,
-            transform: mounted ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'all 1s ease 1s',
-          }}
-        >
-          <CountdownTimer targetDate={weddingDate} />
-        </div>
-
-        {/* RSVP Button */}
-        {/* <div
-          style={{
-            opacity: mounted ? 1 : 0,
-            transform: mounted ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'all 1s ease 1.2s',
-          }}
-        >
-          <Link
-            to="/rsvp"
-            style={{
-              display: 'inline-block',
-              padding: '14px 44px',
-              border: '1.5px solid #7c4a2d',
-              color: '#7c4a2d',
-              background: 'transparent',
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: '13px',
-              letterSpacing: isRTL ? '0.05em' : '0.3em',
-              textTransform: 'uppercase',
-              borderRadius: '40px',
-              textDecoration: 'none',
-              transition: 'all 0.3s ease',
-            }}
-            onMouseEnter={e => {
-              (e.currentTarget as HTMLAnchorElement).style.background = '#7c4a2d';
-              (e.currentTarget as HTMLAnchorElement).style.color = '#f5ede4';
-            }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLAnchorElement).style.background = 'transparent';
-              (e.currentTarget as HTMLAnchorElement).style.color = '#7c4a2d';
-            }}
-          >
-            {tr.home.sendMessage}
-          </Link>
-        </div> */}
+        {/* إضافة Media Query خفيف عبر الـ tag style لضمان الحفاظ على حجم الـ background مثالي في الشاشات الكبيرة جداً */}
+         <style>{`
+    @media (min-width: 1024px) {
+      .hero-bg-section {
+        background-size: auto 35vh !important; /* ديسكتوب: ارتفاع ثابت، العرض يتبع نفسه */
+      }
+    }
+    @media (min-width: 1600px) {
+      .hero-bg-section {
+        background-size: auto 30vh !important; /* شاشات أكبر من كمان، نقلل شوية عشان مش يكبر زيادة */
+      }
+    }
+  `}</style>
       </section>
 
-    {/* ── COUPLE PHOTO ── */}
-<section
-  style={{
-    background: '#f0e4d8',
-    padding: '60px 1rem',
-    textAlign: 'center',
-  }}
->
-  <p style={{ fontSize: '13px', letterSpacing: isRTL ? '0.05em' : '0.35em', color: '#7c4a2d', textTransform: 'uppercase', marginBottom: '24px', fontWeight: 600 }}>
-    {isRTL ? 'سنتزوج' : "let's get married"}
-  </p>
+      {/* ── SECTION: COUNTDOWN ── */}
+      <section style={{ 
+        background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.primaryDark} 100%)`,
+        padding: '60px 1.5rem',
+        textAlign: 'center',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        <div style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '300px',
+          height: '300px',
+          borderRadius: '50%',
+          background: 'rgba(255,255,255,0.03)',
+          pointerEvents: 'none'
+        }} />
+        <div style={{ position: 'relative', zIndex: 2 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '20px' }}>
+            <Clock style={{ width: '24px', height: '24px', color: 'rgba(255,255,255,0.7)' }} />
+            <h2 style={{ 
+              fontFamily: "'Playfair Display', serif",
+              fontSize: 'clamp(20px, 4vw, 28px)',
+              fontWeight: 400,
+              color: 'rgba(255,255,255,0.9)',
+              margin: 0,
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase'
+            }}>
+              {isRTL ? 'العد التنازلي للزفاف' : 'Countdown to Wedding'}
+            </h2>
+          </div>
+          <div style={{ maxWidth: '600px', margin: '0 auto', padding: '10px' }}>
+            <CountdownTimer targetDate={weddingDate} />
+          </div>
+        </div>
+      </section>
 
- <img
-  src={couplePhoto}
-  alt="Eman & Salama"
+      {/* ── SECTION: COUPLE PHOTO WITH POLAROID FRAME ── */}
+      <section style={{ 
+        backgroundImage: `url(${bbgg})`, 
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        padding: '100px 1.5rem', 
+        textAlign: 'center', 
+        position: 'relative' 
+      }}>
+        {/* الحاوية الخارجية - الباك جراوند النبيتي (إطار البولارويد) */}
+        <div style={{ 
+          position: 'relative', 
+          width: '100%', 
+          maxWidth: '310px', 
+          margin: '0 auto 40px',
+          backgroundColor: colors.primary, 
+          padding: '16px 16px 45px 16px', 
+          borderRadius: '4px',
+          boxShadow: '0 10px 25px rgba(0,0,0,0.15)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}>
+          
+          {/* الحاوية الداخلية - الباك جراوند البيضاء */}
+          <div style={{
+            width: '100%',
+            backgroundColor: '#ffffff', 
+            padding: '12px',
+            boxShadow: 'inset 0 0 5px rgba(0,0,0,0.05)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+            
+            {/* صورة العروسين */}
+            <img
+              src={couplePhoto}
+              alt="Eman & Salama"
+              style={{ 
+                width: '100%', 
+                height: 'auto', 
+                aspectRatio: '1 / 1', 
+                objectFit: 'cover',
+                display: 'block'
+              }}
+            />
+          </div>
+        </div>
+
+        {/* عرض أسماء العروسين وتفاصيل الفرح */}
+        <h2 style={{ 
+          fontFamily: isRTL ? "'Noto Nastaliq Urdu', serif" : "'Playfair Display', serif", 
+          fontStyle: isRTL ? 'normal' : 'italic', 
+          fontSize: '28px', 
+          color: colors.primaryDark, 
+          margin: '0 0 12px 0', 
+          lineHeight: isRTL ? 2.2 : 1.4, 
+          fontWeight: 600 
+        }}>
+          {/* {tr.home.salama_num_eman || tr.home.salama_eman} */}
+        </h2>
+        <p style={{ 
+          fontSize: '13px', 
+          letterSpacing: '0.25em', 
+          color: colors.accent, 
+          fontWeight: 800,
+          textTransform: 'uppercase',
+          margin: 0
+        }}>
+          {tr.home.date}
+        </p>
+      </section>
+
+      {/* ── SECTION: DEAR GUESTS ── */}
+      <section style={{ 
+        backgroundImage: `url(${image_e94b47})`, 
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        padding: '80px 1.5rem', 
+        textAlign: 'center', 
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+        {/* حاوية داخلية بيضاء ناعمة لضمان وضوح النص فوق الصورة */}
+        <div
   style={{
     width: '100%',
-    maxWidth: '280px',
-    height: 'auto',
-    marginBottom: '24px',
-    display: 'block',
-    margin: '0 auto 24px',
-  }}
-/>
-
-  <p style={{
-    fontFamily: isRTL ? "'Noto Nastaliq Urdu', serif" : "'Playfair Display', serif",
-    fontStyle: isRTL ? 'normal' : 'italic',
-    fontSize: '22px',
-    color: '#4a2512',
-    marginBottom: '8px',
-    lineHeight: isRTL ? 2 : 1.4,
-  }}>
-    {tr.home.salama_eman}
-  </p>
-
-  <p style={{ fontSize: '13px', letterSpacing: '0.2em', color: '#a07060', fontWeight: 800 }}>
-    {tr.home.date}
-  </p>
-</section>
-
-      {/* ── DEAR GUESTS MESSAGE ── */}
-      <section style={{ background: '#f5ede4', padding: '80px 1rem', textAlign: 'center' }}>
-        <h2
-          style={{
-            fontFamily: "'Playfair Display', serif",
-            fontStyle: 'italic',
-            fontSize: 'clamp(36px, 8vw, 56px)',
-            color: '#4a2512',
-            marginBottom: '16px',
-          }}
-        >
-          {tr.home.dearGuests}
-        </h2>
-
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '32px' }}>
-          {[0, 1].map(i => (
-            <div key={i} style={{ position: 'relative', width: '28px', height: '28px' }}>
-              <div style={{ position: 'absolute', left: i === 0 ? 0 : 10, top: '4px', width: '22px', height: '22px', borderRadius: '50%', border: '2px solid #7c4a2d' }} />
-            </div>
-          ))}
-        </div>
-
-        <p
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: '18px',
-            lineHeight: 1.9,
-            color: '#4a2512',
-            maxWidth: '560px',
-            margin: '0 auto 48px',
-            textAlign: 'center',
-          }}
-        >
-          {tr.home.guestMessage}
-        </p>
-
-        {/* JULY big text */}
-        <div style={{ position: 'relative', marginBottom: '32px' }}>
-          <span style={{ position: 'absolute', top: '-10px', left: '20%', fontSize: '28px', color: '#c9956b', opacity: 0.6 }}>✦</span>
-          <span style={{ position: 'absolute', top: '10px', right: '18%', fontSize: '20px', color: '#c9956b', opacity: 0.4 }}>✦</span>
-          <h3
-            style={{
-      fontFamily: isRTL ? "'Noto Nastaliq Urdu', serif" : "'Playfair Display', serif",
-              fontSize: 'clamp(46px, 18vw, 45px)',
-              fontWeight: 700,
-              color: '#4a2512',
-              letterSpacing: '0.1em',
-              margin: 0,
-              lineHeight: 1,
-            }}
-          >
-            {tr.home.august}
-          </h3>
-        </div>
-
-        <p style={{ fontStyle: 'italic', fontSize: '16px', color: '#7c4a2d', letterSpacing: isRTL ? '0.05em' : '0.15em', marginBottom: '24px' }}>
-          {tr.home.twoThousandTwentySix}
-        </p>
-
-        {/* Calendar days */}
-  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '20px', flexWrap: 'wrap', marginBottom: '11px' }}>  {[5, 6, 7, 8, 9].map(d => (
-    <div key={d} style={{ textAlign: 'center' }}>
-      {d === 7 ? (
-        <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '46px', height: '46px' }}>
-          <Heart style={{ width: '46px', height: '46px', color: '#e8a0b0', fill: '#e8a0b0', position: 'absolute' }} />
-         <span
-  style={{
-    fontFamily: "'Playfair Display', serif",
-    fontWeight: 700,
-    fontSize: '22px',
-    color: '#4a2512',
+    maxWidth: '600px',
+    boxSizing: 'border-box',
+    margin: '0 auto',
     position: 'relative',
-    zIndex: 1,
-    paddingBottom: '4px',
+    padding: '40px 30px',
+    backgroundColor: 'rgba(255,255,255,0.95)',
+    borderRadius: '16px',
+    boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
   }}
 >
-  7
-</span>
+         
+          <p style={{ 
+            fontFamily: "'Cormorant Garamond', serif", 
+            fontSize: '19px', 
+            lineHeight: 1.9, 
+            color: colors.primary, 
+            maxWidth: '560px', 
+            margin: '0 auto 40px', 
+            textAlign: 'center', 
+            fontWeight: 500 
+          }}>
+            {tr.home.guestMessage}
+          </p>
+
+          {/* عرض شهر أغسطس بالثيم الجديد */}
+          <div style={{ position: 'relative', marginBottom: '24px' }}>
+            <span style={{ position: 'absolute', top: '-15px', left: '10%', fontSize: '24px', color: colors.accent, opacity: 0.4 }}>✦</span>
+            <span style={{ position: 'absolute', top: '10px', right: '10%', fontSize: '18px', color: colors.accent, opacity: 0.3 }}>✦</span>
+            <h3 style={{ 
+              fontFamily: isRTL ? "'Scheherazade New', serif" : "'Playfair Display', serif", 
+              fontSize: 'clamp(38px, 10vw, 46px)', 
+              fontWeight: 700, 
+              color: colors.primaryDark, 
+              letterSpacing: '0.05em', 
+              margin: 0, 
+              lineHeight: 1.2,
+              textTransform: 'uppercase'
+            }}>
+              {tr.home.august}
+            </h3>
+            <p style={{ 
+              fontStyle: 'italic', 
+              fontSize: '15px', 
+              color: colors.accent, 
+              letterSpacing: '0.15em', 
+              margin: '4px 0 0 0', 
+              fontWeight: 600 
+            }}>
+              {tr.home.twoThousandTwentySix}
+            </p>
+          </div>
+
+          {/* شبكة الأرقام الدائرية باللون البورغاندي والأبيض */}
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(7, 1fr)', 
+            gap: '10px', 
+            maxWidth: '340px', 
+            margin: '30px auto 10px',
+            alignItems: 'center'
+          }}>
+            {[5, 6, 7, 8, 9, 10].map((d: number) => (
+              <div key={d} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                {d === 7 ? (
+                  <div style={{ 
+                    width: '42px', 
+                    height: '42px', 
+                    borderRadius: '50%', 
+                    background: colors.primary, 
+                    color: '#fff',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontWeight: 700,
+                    fontSize: '18px',
+                    boxShadow: `0 0 0 2px #fff, 0 0 0 4px ${colors.accent}`,
+                    fontFamily: "'Playfair Display', serif",
+                    position: 'relative',
+                    zIndex: 2
+                  }}>
+                    {d}
+                  </div>
+                ) : (
+                  <div style={{ 
+                    width: '36px', 
+                    height: '36px', 
+                    borderRadius: '50%', 
+                    border: `1px dashed ${colors.borderSoft}`,
+                    color: colors.primary, 
+                    opacity: 0.4,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontFamily: "'Playfair Display', serif",
+                    fontSize: '15px'
+                  }}>
+                    {d}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
-      ) : (
-        <span style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: '28px', color: '#7c4a2d', opacity: 0.5 }}>
-          {d}
-        </span>
-      )}
-    </div>
-  ))}
-</div>
-<div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
-  {[10, 11].map(d => (
-    <span key={d} style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: '28px', color: '#7c4a2d', opacity: 0.5 }}>
-      {d}
-    </span>
-  ))}
-</div>
-       
       </section>
 
-      {/* ── PROGRAM ── */}
-      <section style={{ background: '#f0e4d8', padding: '80px 1rem' }}>
-        <div style={{ maxWidth: '560px', margin: '0 auto' }}>
-          <h2
-            style={{
+            {/* ── SECTION: LOCATION ── */}
+     <section
+  style={{
+    background: colors.bgLight,
+    padding: '90px 1.5rem',
+    textAlign: 'center',
+    position: 'relative',
+  }}
+>
+  <h2
+    style={{
       fontFamily: isRTL ? "'Noto Nastaliq Urdu', serif" : "'Playfair Display', serif",
-              fontWeight: 700,
-              fontSize: 'clamp(25px, 11vw, 25px)',
-              color: '#4a2512',
-              textAlign: 'center',
-              letterSpacing: '0.05em',
-              marginBottom: '12px',
-            }}
-          >
+      fontStyle: 'italic',
+      fontSize: 'clamp(28px, 6vw, 38px)',
+      color: colors.primaryDark,
+      marginBottom: '36px',
+    }}
+  >
+    {isRTL ? 'موقع الحفل' : 'Open Location'}
+  </h2>
+
+  <div
+    style={{
+      maxWidth: '420px',
+      margin: '0 auto',
+      borderRadius: '16px',
+      overflow: 'hidden',
+      boxShadow: '0 10px 30px rgba(0,0,0,0.12)',
+    }}
+  >
+    <img
+      src={locationImg}
+      alt={isRTL ? 'موقع الحفل' : 'Wedding Venue'}
+      style={{
+        width: '100%',
+        height: '260px',
+        objectFit: 'cover',
+        display: 'block',
+      }}
+    />
+  </div>
+
+  <a
+    href="https://maps.google.com"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '8px',
+      marginTop: '28px',
+      padding: '14px 32px',
+      background: colors.primary,
+      color: '#fff',
+      borderRadius: '30px',
+      textDecoration: 'none',
+      fontSize: '13px',
+      letterSpacing: '0.15em',
+      textTransform: 'uppercase',
+      fontWeight: 700,
+      boxShadow: '0 8px 20px rgba(107,18,36,0.25)',
+    }}
+  >
+    <MapPin style={{ width: '16px', height: '16px' }} />
+    {isRTL ? 'افتح الموقع' : 'Open Location'}
+  </a>
+</section>
+
+
+      {/* ── SECTION: WEDDING PROGRAM ── */}
+      <section style={{ 
+        backgroundImage: `url(${image_e8e1b2})`, // تعيين صورة الفراشات كخلفية هنا
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        padding: '100px 2rem', 
+      }}>
+        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+          <h2 style={{ 
+            fontFamily: isRTL ? "'Noto Nastaliq Urdu', serif" : "'Playfair Display', serif", 
+            fontSize: '32px', 
+            color: colors.primaryDark, 
+            textAlign: 'center', 
+            marginBottom: '60px' 
+          }}>
             {tr.home.program}
           </h2>
 
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', marginBottom: '40px' }}>
-            {Array.from({ length: 13 }).map((_, i) => (
-              <div key={i} style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#c9956b', opacity: 0.5 }} />
+          <div style={{ position: 'relative', padding: '10px 0' }}>
+            {/* خط التايم لاين بالبورغاندي الناعم */}
+            <div style={{ 
+              position: 'absolute', 
+              left: isRTL ? 'auto' : '25px', 
+              right: isRTL ? '25px' : 'auto', 
+              top: 0, 
+              bottom: 0, 
+              width: '1px', 
+              background: colors.accent, 
+              opacity: 0.3 
+            }} />
+
+            {tr.home.programItems.map((item: ProgramItem, i: number) => (
+              <div key={i} style={{ 
+                position: 'relative',
+                paddingLeft: isRTL ? '0' : '70px',
+                paddingRight: isRTL ? '70px' : '0',
+                marginBottom: '45px',
+                textAlign: isRTL ? 'right' : 'left'
+              }}>
+                <div style={{ 
+                  position: 'absolute',
+                  left: isRTL ? 'auto' : '10px',
+                  right: i === i ? (isRTL ? '10px' : 'auto') : 'auto',
+                  top: '0px',
+                  width: '32px',
+                  height: '32px',
+                  background: colors.bgLight,
+                  border: `1px solid ${colors.accent}`,
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '14px',
+                  zIndex: 2
+                }}>
+                  {emojis[i]}
+                </div>
+
+                <div>
+                  <span style={{ 
+                    fontFamily: "'Playfair Display', serif", 
+                    fontSize: '13px', 
+                    color: colors.accent, 
+                    fontWeight: 600,
+                    letterSpacing: '0.1em'
+                  }}>{item.time}</span>
+                  
+                  <h4 style={{ 
+                    fontSize: '20px', 
+                    color: colors.primaryDark, 
+                    margin: '4px 0 8px',
+                    fontWeight: 500
+                  }}>{item.title}</h4>
+                  
+                  <p style={{ 
+                    fontSize: '14px', 
+                    color: colors.textMuted, 
+                    margin: 0, 
+                    lineHeight: 1.6 
+                  }}>{item.desc}</p>
+                </div>
+              </div>
             ))}
           </div>
-
-          {tr.home.programItems.map((item, i) => (
-            <div
-              key={i}
-              style={{
-                background: '#faf3ec',
-                border: '1.5px dashed #d4b08c',
-                borderRadius: '16px',
-                padding: '20px 24px',
-                marginBottom: '16px',
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: '20px',
-                flexDirection: 'row',
-textAlign: isRTL ? 'right' : 'left',
-              }}
-            >
-              <div style={{ fontSize: '32px', lineHeight: 1 }}>{emojis[i]}</div>
-              <div>
-                <p style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: '22px', color: '#4a2512', margin: '0 0 4px' }}>
-                  {item.time}
-                </p>
-                <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '18px', color: '#7c4a2d', margin: '0 0 6px' }}>
-                  {item.title}
-                </p>
-                <p style={{ fontSize: '14px', color: '#a07060', margin: 0, lineHeight: 1.6 }}>
-                  {item.desc}
-                </p>
-              </div>
-            </div>
-          ))}
         </div>
       </section>
 
-      {/* ── CLOSING MESSAGE ── */}
-      <section style={{ background: '#f5ede4', padding: '80px 1rem', textAlign: 'center' }}>
-        <p style={{ fontSize: '16px', fontStyle: 'italic', color: '#a07060', marginBottom: '8px',fontWeight:500,  }}>
-          {tr.home.closingQuote}
-        </p>
-
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', margin: '32px 0' }}>
-          <span style={{ width: '40px', height: '1px', background: '#c9956b' }} />
-          <div style={{ position: 'relative', width: '40px', height: '30px' }}>
-            <div style={{ position: 'absolute', left: 0, top: '4px', width: '22px', height: '22px', borderRadius: '50%', border: '2px solid #7c4a2d' }} />
-            <div style={{ position: 'absolute', left: '12px', top: '4px', width: '22px', height: '22px', borderRadius: '50%', border: '2px solid #7c4a2d' }} />
+      {/* ── SECTION: CLOSING MESSAGE ── */}
+      <section style={{ 
+        background: colors.bgLight, 
+        padding: '110px 1rem', 
+        textAlign: 'center', 
+        position: 'relative',
+      }}>
+        <div style={{ position: 'relative', zIndex: 2 }}>
+          <p style={{ 
+            fontSize: '16px', 
+            fontStyle: 'italic', 
+            color: colors.accent, 
+            marginBottom: '8px', 
+            fontWeight: 600 
+          }}>{tr.home.closingQuote}</p>
+          
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            gap: '12px', 
+            margin: '32px 0' 
+          }}>
+            <span style={{ width: '40px', height: '1px', background: colors.accent }} />
+            <div style={{ position: 'relative', width: '40px', height: '30px' }}>
+              <div style={{ 
+                position: 'absolute', 
+                left: 0, 
+                top: '4px', 
+                width: '22px', 
+                height: '22px', 
+                borderRadius: '50%', 
+                border: `2px solid ${colors.primary}` 
+              }} />
+              <div style={{ 
+                position: 'absolute', 
+                left: '12px', 
+                top: '4px', 
+                width: '22px', 
+                height: '22px', 
+                borderRadius: '50%', 
+                border: `2px solid ${colors.primary}` 
+              }} />
+            </div>
+            <span style={{ width: '40px', height: '1px', background: colors.accent }} />
           </div>
-          <span style={{ width: '40px', height: '1px', background: '#c9956b' }} />
+
+          <p style={{ 
+            fontSize: '16px', 
+            fontStyle: 'italic', 
+            color: colors.primary, 
+            marginBottom: '8px', 
+            fontFamily: isRTL ? "'Noto Nastaliq Urdu', serif" : "'Playfair Display', serif" 
+          }}>with love</p>
+          <h2 style={{ 
+            fontFamily: isRTL ? "'Noto Nastaliq Urdu', serif" : "'Playfair Display', serif", 
+            fontWeight: 700, 
+            fontSize: 'clamp(22px, 11vw, 24px)', 
+            color: colors.primaryDark, 
+            lineHeight: 1.5, 
+            margin: '0 0 16px' 
+          }}>{tr.home.salama_eman}</h2>
+          <p style={{ 
+            fontSize: '13px', 
+            letterSpacing: '0.2em', 
+            color: colors.accent, 
+            fontWeight: 700, 
+            fontFamily: isRTL ? "'Noto Nastaliq Urdu', serif" : "'Playfair Display', serif" 
+          }}>{tr.home.date}</p>
         </div>
-
-        <p style={{ fontSize: '16px', fontStyle: 'italic', color: '#7c4a2d', marginBottom: '8px',      fontFamily: isRTL ? "'Noto Nastaliq Urdu', serif" : "'Playfair Display', serif",
- }}>
-          {tr.home.withLove}
-        </p>
-        <h2
-          style={{
-      fontFamily: isRTL ? "'Noto Nastaliq Urdu', serif" : "'Playfair Display', serif",
-            fontWeight: 700,
-            fontSize: 'clamp(20px, 11vw, 22px)',
-            color: '#4a2512',
-            lineHeight: 1.5,
-            margin: '0 0 16px',
-          }}
-        >
-        {tr.home.salama_eman}
-        </h2>
-        <p style={{ fontSize: '13px', letterSpacing: '0.2em', color: '#a07060',fontWeight:700,       fontFamily: isRTL ? "'Noto Nastaliq Urdu', serif" : "'Playfair Display', serif",
- }}>
-          {tr.home.date}
-        </p>
-
-        {/* <div style={{ marginTop: '48px' }}>
-          <Link
-            to="/rsvp"
-            style={{
-              display: 'inline-block',
-              padding: '14px 44px',
-              border: '1.5px solid #7c4a2d',
-              color: '#7c4a2d',
-              background: 'transparent',
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: '13px',
-              letterSpacing: isRTL ? '0.05em' : '0.3em',
-              textTransform: 'uppercase',
-              borderRadius: '40px',
-              textDecoration: 'none',
-            }}
-          >
-            {tr.home.sendMessage}
-          </Link>
-        </div> */}
       </section>
 
       <style>{`
-      @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400..700&display=swap');
-       @keyframes fall {
-  0% { transform: translateY(-30px) rotate(0deg); opacity: 0.3; }
-  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-}
-        @keyframes ringPulse {
-          0%, 100% { opacity: 0.7; transform: scale(1); }
-          50% { opacity: 1; transform: scale(1.06); }
-        }
-        @keyframes bounce {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(6px); }
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400..700&display=swap');
+        
+        @keyframes fall {
+          0% { transform: translateY(-30px) rotate(0deg); opacity: 0.4; }
+          100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
 
-        
+        @keyframes pulse {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.15); }
+          100% { transform: scale(1); }
+        }
       `}</style>
     </div>
   );

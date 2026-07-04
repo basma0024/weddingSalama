@@ -1,9 +1,8 @@
 const en = {
   // Loading Screen
   loading: {
-    invited: 'you are invited',
+    invited: 'you are warmly invited',
     date: 'August 7 · 2026',
-    
   },
 
   // Navbar
@@ -17,30 +16,29 @@ const en = {
 
   // HomePage
   home: {
-    invitation: 'you have received an invitation',
+    invitation: "Join us as our forever begins",
     from: 'from',
-    salama:'Salama',
-    eman:'Eman',
+    ahmed: 'Ahmed',
+    asmaa: 'Asmaa',
     and: '&',
-    date: '07 · 08 · 2026 — Edku, Elwaha',
-    mindate:'August 7',
-    dearGuests: 'Dear Guests!',
+    date: '07 · 08 · 2026 — Alexandria',
+    mindate: 'August 7',
+    dearGuests: 'To Our Dearest Guests',
     guestMessage:
-      'Something wonderful is about to happen in our lives. We would be so happy to share this special day with the people who matter most to us — our family and dearest friends. Please join us as we celebrate the beginning of our forever.',
+      "Surrounded by love and cherished memories, we invite you to join us as we celebrate the start of our forever.",
     august: 'August',
     twoThousandTwentySix: '2026',
-    program: 'PROGRAM',
+    program: 'Our Celebration',
     programItems: [
-      { time: '2:00 PM', title: 'Guest Arrival', desc: 'Bring your warmest smile and a heart full of joy.' },
-      { time: '3:00 PM', title: 'Marriage Contract', desc: 'The moment we say I do' },
-      { time: '4:00 PM', title: 'Party', desc: 'Dance, laugh, and celebrate the night away with us.' },
+      { time: '2:00 PM', title: 'Guest Arrival', desc: 'Come as you are, and bring a heart full of joy.' },
+      { time: '3:00 PM', title: 'Marriage Contract', desc: 'The moment we say "I do," surrounded by those we love.' },
+      { time: '4:00 PM', title: 'Celebration', desc: 'An evening of music, dancing, and joy that lasts till morning.' },
     ],
     closingQuote: '"We can\'t wait to celebrate this special day with you..."',
     withLove: 'With love,',
-    sendMessage: 'Send Us Message',
-    location:'Edku,Elwaha',
-    salama_eman:'Salama Soffar & Eman Ashraf',
-    
+    sendMessage: 'Send Us a Message',
+    location: 'Alexandria',
+    salama_eman: 'Ahmed & Asmaa',
   },
 
   // CountdownTimer
@@ -54,7 +52,7 @@ const en = {
   // RSVP Page
   rsvp: {
     heroTitle: 'RSVP',
-    heroSubtitle: 'We hope you can join us for our special day',
+    heroSubtitle: "We'd be so happy if you could join us on our special day",
     quote: '"Your presence is the greatest gift"',
     name: 'Your Name',
     nameRequired: 'Your Name *',
@@ -90,13 +88,13 @@ const en = {
   // Gallery Page
   gallery: {
     heroTitle: 'Our Gallery',
-    heroSubtitle: 'Precious moments captured in time',
+    heroSubtitle: 'Precious moments, captured and kept forever',
   },
 
   // Story Page
   story: {
     heroTitle: 'Our Love Story',
-    heroSubtitle: 'A timeline of moments that brought us here',
+    heroSubtitle: 'A timeline of the moments that brought us here',
   },
 
   // Details Page
@@ -104,7 +102,8 @@ const en = {
     heroTitle: 'Wedding Details',
     heroSubtitle: 'Join us for a celebration of love',
     daysEvents: "The Day's Events",
-    daysEventsDesc: "We've planned a special day filled with love, laughter, and celebration. Here's what to expect.",
+    daysEventsDesc:
+      "We've planned a special day filled with love, laughter, and celebration. Here's what to expect.",
   },
 
   // Language toggle

@@ -1,15 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import HomePage from './pages/HomePage';
-import DetailsPage from './pages/DetailsPage';
-import RSVPPage from './pages/RSVPPage';
-import GalleryPage from './pages/GalleryPage';
-import StoryPage from './pages/StoryPage';
-import NotFoundPage from './pages/NotFoundPage';
-import AdminLoginPage from './pages/AdminLoginPage';
-import AdminDashboardPage from './pages/AdminDashboardPage';
 import PageTransition from './components/PageTransition';
-import LoadingScreen from './pages/LoadingScreen';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -26,11 +18,7 @@ function AppLayout() {
         <PageTransition>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/details" element={<DetailsPage />} />
-            <Route path="/rsvp" element={<RSVPPage />} />
-            <Route path="/gallery" element={<GalleryPage />} />
-            <Route path="/story" element={<StoryPage />} />
-            <Route path="*" element={<NotFoundPage />} />
+            
           </Routes>
         </PageTransition>
       </main>
@@ -39,7 +27,6 @@ function AppLayout() {
 }
 
 function App() {
-  const [loading, setLoading] = useState(true);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -52,15 +39,9 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
-      {loading ? (
-        <LoadingScreen onComplete={() => setLoading(false)} audioRef={audioRef} />
-      ) : (
-        <Routes>
-          <Route path="/admin" element={<AdminLoginPage />} />
-          <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
-          <Route path="/*" element={<AppLayout />} />
-        </Routes>
-      )}
+      <Routes>
+        <Route path="/*" element={<AppLayout />} />
+      </Routes>
     </Router>
   );
 }
