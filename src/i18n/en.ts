@@ -18,11 +18,11 @@ const en = {
   home: {
     invitation: "Join us as our forever begins",
     from: 'from',
-    ahmed: 'Ahmed',
-    asmaa: 'Asmaa',
+    ahmed: 'Adham',
+    asmaa: 'Farah',
     and: '&',
     date: '07 · 08 · 2026 — Alexandria',
-    mindate: 'August 7',
+    mindate: 'August 20',
     dearGuests: 'To Our Dearest Guests',
     guestMessage:
       "Surrounded by love and cherished memories, we invite you to join us as we celebrate the start of our forever.",
@@ -38,7 +38,7 @@ const en = {
     withLove: 'With love,',
     sendMessage: 'Send Us a Message',
     location: 'Alexandria',
-    salama_eman: 'Ahmed & Asmaa',
+    salama_eman: 'Adham & Farah',
   },
 
   // CountdownTimer
