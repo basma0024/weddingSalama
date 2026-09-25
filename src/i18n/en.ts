@@ -2,7 +2,7 @@ const en = {
   // Loading Screen
   loading: {
     invited: 'you are warmly invited',
-    date: 'August 7 · 2026',
+    date: 'September 26 · 2026',
   },
 
   // Navbar
@@ -18,27 +18,26 @@ const en = {
   home: {
     invitation: "Join us as our forever begins",
     from: 'from',
-    ahmed: 'Adham',
-    asmaa: 'Farah',
+    ahmed: 'Mohammed',
+    asmaa: 'Rahma',
     and: '&',
-    date: '07 · 08 · 2026 — Alexandria',
-    mindate: 'August 20',
+    date: '26 · 09 · 2026 — Sandi,Edku',
+    mindate: 'September 26',
     dearGuests: 'To Our Dearest Guests',
     guestMessage:
       "Surrounded by love and cherished memories, we invite you to join us as we celebrate the start of our forever.",
-    august: 'August',
+    august: 'September',
     twoThousandTwentySix: '2026',
     program: 'Our Celebration',
     programItems: [
-      { time: '2:00 PM', title: 'Guest Arrival', desc: 'Come as you are, and bring a heart full of joy.' },
-      { time: '3:00 PM', title: 'Marriage Contract', desc: 'The moment we say "I do," surrounded by those we love.' },
-      { time: '4:00 PM', title: 'Celebration', desc: 'An evening of music, dancing, and joy that lasts till morning.' },
+      { time: '9:00 PM', title: 'Guest Arrival', desc: 'Come as you are, and bring a heart full of joy.' },
+      { time: '10:00 PM', title: 'Celebration', desc: 'An evening of music, dancing, and joy that lasts till morning.' },
     ],
     closingQuote: '"We can\'t wait to celebrate this special day with you..."',
     withLove: 'With love,',
     sendMessage: 'Send Us a Message',
-    location: 'Alexandria',
-    salama_eman: 'Adham & Farah',
+    location: 'Sandi , Edku',
+    salama_eman: 'Mohammed & Rahma',
   },
 
   // CountdownTimer

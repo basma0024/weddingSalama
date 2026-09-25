@@ -84,7 +84,7 @@ const HomePage: React.FC = () => {
   }, []);
 
   // ── كاونتر مبني يدويًا (مش مكتبة خارجية) عشان يبقى شكله مختلف تمامًا ──
-  const weddingDate = new Date('2026-08-20T18:00:00').getTime();
+  const weddingDate = new Date('2026-09-26T18:00:00').getTime();
   const [time, setTime] = useState({ d: 0, h: 0, m: 0, s: 0 });
   useEffect(() => {
     const tick = () => {
@@ -139,7 +139,7 @@ const HomePage: React.FC = () => {
 
           <div style={{ marginTop: '34px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '22px', flexWrap: 'wrap', opacity: mounted ? 1 : 0, transform: mounted ? 'translateY(0)' : 'translateY(18px)', transition: 'all 1.2s cubic-bezier(0.16,1,0.3,1) 0.7s' }}>
             <span style={{ fontFamily: eyebrowFont, fontSize: '0.78rem', letterSpacing: '0.14em', textTransform: 'uppercase' }}>{tr.home.mindate}</span>
-            <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#fbf6f1', textDecoration: 'none', fontFamily: eyebrowFont, fontSize: '0.78rem', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+            <a href="https://maps.app.goo.gl/XQy32VLRY4N3ux4K8" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#fbf6f1', textDecoration: 'none', fontFamily: eyebrowFont, fontSize: '0.78rem', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
               <MapPin style={{ width: '14px', height: '14px' }} />
               {tr.home.location}
             </a>
@@ -219,7 +219,7 @@ const HomePage: React.FC = () => {
           ? 'ودلوقتي إحنا مبسوطين جدًا ندعوكم تكونوا معانا في بداية حكايتنا الجديدة.'
           : "Now, we're overjoyed to invite you to be with us as we begin this next chapter, together."}
       </p>
-      <p style={{ fontFamily: scriptFont, fontSize: '2.1rem', color: colors.wineMid }}>Adham &amp; Farah</p>
+      <p style={{ fontFamily: scriptFont, fontSize: '2.1rem', color: colors.wineMid }}>Mohammed &amp; Rahma</p>
     </Reveal>
   </div>
 </section>
@@ -341,7 +341,7 @@ const HomePage: React.FC = () => {
       fontSize: '1.05rem',
       opacity: 0.9
     }}>
-      {isRTL ? '٢٠ أغسطس ٢٠٢٦' : '20 August 2026'}
+      {isRTL ? '٢٠ أغسطس ٢٠٢٦' : '26 September 2026'}
     </p>
 
   </Reveal>
@@ -356,13 +356,13 @@ const HomePage: React.FC = () => {
               {isRTL ? 'مكان الحفل' : 'The Venue'}
             </p>
             <h3 style={{ fontFamily: isRTL ? "'Noto Nastaliq Urdu', serif" : "'Playfair Display', serif", fontStyle: 'italic', fontSize: '1.5rem', color: colors.wine, margin: '0 0 10px' }}>
-              {isRTL ? 'يوم السبت، ٢٠ أغسطس ٢٠٢٦' : 'Thursday, 20 August 2026'}
+              {isRTL ? 'يوم السبت، ٢٠ أغسطس ٢٠٢٦' : 'Saturday, 26 September 2026'}
             </h3>
             <p style={{ fontFamily: bodyFont, fontSize: '1.05rem', color: colors.textMuted, margin: 0 }}>
               {tr.home.location}
             </p>
             <a
-              href="https://maps.google.com"
+              href="https://maps.app.goo.gl/XQy32VLRY4N3ux4K8"
               target="_blank"
               rel="noopener noreferrer"
               style={{ display: 'inline-block', marginTop: '20px', fontFamily: eyebrowFont, fontSize: '0.7rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: colors.wine, borderBottom: `1px solid ${colors.gold}`, paddingBottom: '3px', textDecoration: 'none' }}
@@ -380,105 +380,125 @@ const HomePage: React.FC = () => {
       {tr.home.guestMessage}
     </p>
 
-    <div style={{
-      maxWidth: '350px',
-      margin: '0 auto',
-      backgroundColor: '#FAF7F2', // لون خلفية كريمي أهدى وألطف من الأبيض الصريح
-      padding: '28px 20px 40px',
-      borderRadius: '4px',
-      boxShadow: '0 10px 25px rgba(0, 0, 0, 0.05)', // ظل ناعم وهادئ
-      transform: 'rotate(-2deg)',
-      position: 'relative',
-      // تأثير الأطراف المشرشرة في أسفل الكارت (Zig-zag / Tear edge)
-      clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 12px), 96.4% 100%, 92.8% calc(100% - 12px), 89.2% 100%, 85.6% calc(100% - 12px), 82% 100%, 78.4% calc(100% - 12px), 74.8% 100%, 71.2% calc(100% - 12px), 67.6% 100%, 64% calc(100% - 12px), 60.4% 100%, 56.8% calc(100% - 12px), 53.2% 100%, 49.6% calc(100% - 12px), 46% 100%, 42.4% calc(100% - 12px), 38.8% 100%, 35.2% calc(100% - 12px), 31.6% 100%, 28% calc(100% - 12px), 24.4% 100%, 20.8% calc(100% - 12px), 17.2% 100%, 13.6% calc(100% - 12px), 10% 100%, 6.4% calc(100% - 12px), 2.8% 100%, 0 calc(100% - 12px))'
-    }}>
+    {/* Calendar */}
+<div
+  style={{
+    maxWidth: '350px',
+    margin: '0 auto',
+    backgroundColor: '#FAF7F2',
+    padding: '28px 20px 40px',
+    borderRadius: '4px',
+    boxShadow: '0 10px 25px rgba(0, 0, 0, 0.05)',
+    transform: 'rotate(-2deg)',
+    position: 'relative',
+    clipPath:
+      'polygon(0 0, 100% 0, 100% calc(100% - 12px), 96.4% 100%, 92.8% calc(100% - 12px), 89.2% 100%, 85.6% calc(100% - 12px), 82% 100%, 78.4% calc(100% - 12px), 74.8% 100%, 71.2% calc(100% - 12px), 67.6% 100%, 64% calc(100% - 12px), 60.4% 100%, 56.8% calc(100% - 12px), 53.2% 100%, 49.6% calc(100% - 12px), 46% 100%, 42.4% calc(100% - 12px), 38.8% 100%, 35.2% calc(100% - 12px), 31.6% 100%, 28% calc(100% - 12px), 24.4% 100%, 20.8% calc(100% - 12px), 17.2% 100%, 13.6% calc(100% - 12px), 10% 100%, 6.4% calc(100% - 12px), 2.8% 100%, 0 calc(100% - 12px))'
+  }}
+>
+  {/* Month */}
+  <p
+    style={{
+      fontFamily: "'Playfair Display', serif",
+      fontSize: '1.6rem',
+      color: colors.wine,
+      marginBottom: '24px',
+      letterSpacing: '0.03em',
+      direction: 'ltr'
+    }}
+  >
+    September 2026
+  </p>
 
-      {/* اسم الشهر والسنة بالإنجليزي وبخط سيريف راقي */}
-      <p style={{
-        fontFamily: "'Playfair Display', serif",
-        fontSize: '1.6rem',
-        color: colors.wine,
-        marginBottom: '24px',
-        letterSpacing: '0.03em',
-        direction: 'ltr'
-      }}>
-        August 2026
-      </p>
-
-      {/* أيام الأسبوع باللغة الإنجليزية */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(7, 1fr)',
-        gap: '5px',
-        marginBottom: '14px',
-        direction: 'ltr'
-      }}>
-        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-          <div key={day} style={{
-            fontFamily: eyebrowFont || 'sans-serif',
-            fontSize: '0.75rem',
-            color: colors.wine,
-            fontWeight: '600',
-            opacity: 0.85
-          }}>
-            {day}
-          </div>
-        ))}
+  {/* Days */}
+  <div
+    style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(7, 1fr)',
+      gap: '5px',
+      marginBottom: '14px',
+      direction: 'ltr'
+    }}
+  >
+    {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
+      <div
+        key={day}
+        style={{
+          fontFamily: eyebrowFont || 'sans-serif',
+          fontSize: '0.75rem',
+          color: colors.wine,
+          fontWeight: '600',
+          opacity: 0.85
+        }}
+      >
+        {day}
       </div>
+    ))}
+  </div>
 
-      {/* شبكة الأيام باللغة الإنجليزية */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(7, 1fr)',
-        gap: '8px',
-        direction: 'ltr'
-      }}>
-        {/*
-          أغسطس 2026 يبدأ يوم السبت (Saturday)،
-          بالتالي نحتاج 6 خانات فارغة في نظام الأسبوع المفهرس من الأحد إلى السبت (Sun = 0 ... Sat = 6)
-        */}
-        {[...Array(6)].map((_, i) => <div key={'empty-' + i} />)}
+  {/* Dates */}
+  <div
+    style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(7, 1fr)',
+      gap: '8px',
+      direction: 'ltr'
+    }}
+  >
+    {/* September 1, 2026 = Tuesday
+        Sunday = 0 → Monday = 1 → Tuesday = 2
+        لذلك 3 خانات فاضية */}
+    {[...Array(2)].map((_, i) => (
+      <div key={'empty-' + i} />
+    ))}
 
-        {[...Array(31)].map((_, i) => {
-          const dayNumber = i + 1;
-          const isTargetDay = dayNumber === 20; // يوم 20 أغسطس
+    {[...Array(30)].map((_, i) => {
+      const dayNumber = i + 1;
+      const isTargetDay = dayNumber === 26;
 
-          return (
-            <div key={dayNumber} style={{
+      return (
+        <div
+          key={dayNumber}
+          style={{
+            position: 'relative',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '34px'
+          }}
+        >
+          {/* Highlight September 26 */}
+          {isTargetDay && (
+            <div
+              style={{
+                position: 'absolute',
+                width: '32px',
+                height: '32px',
+                backgroundColor: colors.wine,
+                borderRadius: '50%',
+                zIndex: 0
+              }}
+            />
+          )}
+
+          {/* Date number */}
+          <div
+            style={{
               position: 'relative',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: '34px'
-            }}>
-              {/* الدائرة الداكنة حول يوم 20 */}
-              {isTargetDay && (
-                <div style={{
-                  position: 'absolute',
-                  width: '32px',
-                  height: '32px',
-                  backgroundColor: colors.wine,
-                  borderRadius: '50%',
-                  zIndex: 0
-                }} />
-              )}
-
-              {/* رقم اليوم */}
-              <div style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: '0.95rem',
-                color: isTargetDay ? '#FFF' : colors.ink,
-                zIndex: 1,
-                fontWeight: isTargetDay ? '700' : '400',
-                opacity: isTargetDay ? 1 : 0.75
-              }}>
-                {dayNumber}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
+              fontFamily: "'Playfair Display', serif",
+              fontSize: '0.95rem',
+              color: isTargetDay ? '#FFF' : colors.ink,
+              zIndex: 1,
+              fontWeight: isTargetDay ? '700' : '400',
+              opacity: isTargetDay ? 1 : 0.75
+            }}
+          >
+            {dayNumber}
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</div>
   </Reveal>
 </section>
 
@@ -605,7 +625,7 @@ const HomePage: React.FC = () => {
       fontWeight: 600, 
       fontFamily: isRTL ? "'Noto Nastaliq Urdu', serif" : "'Playfair Display', serif" 
     }}>
-      {isRTL ? '٢٠ أغسطس ٢٠٢٦' : '20 August 2026'}
+      {isRTL ? '٢٠ أغسطس ٢٠٢٦' : '26 September 2026'}
     </p>
   </Reveal>
 </section>
