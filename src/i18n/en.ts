@@ -2,7 +2,7 @@ const en = {
   // Loading Screen
   loading: {
     invited: 'you are warmly invited',
-    date: 'September 26 · 2026',
+    date: 'November 1 · 2026',
   },
 
   // Navbar
@@ -18,15 +18,15 @@ const en = {
   home: {
     invitation: "Join us as our forever begins",
     from: 'from',
-    ahmed: 'Mohammed',
-    asmaa: 'Rahma',
+    ahmed: 'Salama',
+    asmaa: 'Eman',
     and: '&',
-    date: '26 · 09 · 2026 — Sandi,Edku',
-    mindate: 'September 26',
+    date: '01 · 11 · 2026 — Sandi,Edku',
+    mindate: 'November 1',
     dearGuests: 'To Our Dearest Guests',
     guestMessage:
       "Surrounded by love and cherished memories, we invite you to join us as we celebrate the start of our forever.",
-    august: 'September',
+    august: 'November',
     twoThousandTwentySix: '2026',
     program: 'Our Celebration',
     programItems: [
@@ -37,7 +37,7 @@ const en = {
     withLove: 'With love,',
     sendMessage: 'Send Us a Message',
     location: 'Sandi , Edku',
-    salama_eman: 'Mohammed & Rahma',
+    salama_eman: 'Salama & Eman',
   },
 
   // CountdownTimer
