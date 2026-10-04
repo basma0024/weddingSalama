@@ -426,7 +426,6 @@ const handleOpen = () => {
             </h1>
           </div>
 
-          <Ornament light style={{ margin: '34px auto 28px', opacity: mounted ? 1 : 0, transition: 'opacity 1.2s ease 0.7s' }} />
 
           <div
             style={{
@@ -437,6 +436,7 @@ const handleOpen = () => {
               opacity: mounted ? 1 : 0,
               transform: mounted ? 'translateY(0)' : 'translateY(18px)',
               transition: 'all 1.2s cubic-bezier(0.16,1,0.3,1) 0.8s',
+              marginTop:'40px'
             }}
           >
             <span
@@ -594,7 +594,7 @@ const handleOpen = () => {
               letterSpacing: isRTL ? '0.1em' : '0.38em',
               textTransform: 'uppercase',
               color: 'rgba(255,255,255,0.7)',
-              marginBottom: '18px',
+              marginBottom: '20px',
             }}
           >
             {isRTL ? 'وعد' : 'A Promise'}
@@ -614,7 +614,6 @@ const handleOpen = () => {
             {isRTL ? '"من النهاردة، حياتنا هتبقى واحدة"' : '"From this day, our lives become one"'}
           </p>
 
-          <Ornament light style={{ margin: '0 auto 44px' }} />
 
           <p
             style={{
@@ -1010,9 +1009,8 @@ const handleOpen = () => {
             {isRTL ? 'إدكو، البحيرة' : 'Edku, Beheira'}
           </p>
 
-          <Ornament style={{ marginBottom: '34px' }} />
 
-          <div style={{ padding: '6px', border: `1px solid ${colors.ink}`, marginBottom: '38px' }}>
+          <div style={{ padding: '6px', border: `1px solid ${colors.ink}`, marginBottom: '38px', marginTop:'30px' }}>
             <div
               style={{
                 position: 'relative',
