@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+
 import { MapPin, ArrowRight } from 'lucide-react';
 import { useLang } from '../context/LangContext';
 
 import ringHands from '../../public/imgs/Gemini_Generated_Image_sfmuflsfmuflsfmu.jpg'; // Hero
-import galleryCandlesVeil from '../../public/imgs/gallery-candles-veil.jpg'; // Promise + countdown
+import galleryCandlesVeil from '../../public/imgs/countdown.jpg'; // Promise + countdown
 import champagneGlass from '../../public/imgs/champagne-glass.jpg'; // Timeline
-import coupleCalendarBg from '../../public/imgs/couple-calendar.png'; // Calendar
+import coupleCalendarBg from '../../public/imgs/Joyful Children in Formal Attire.png'; // Calendar
 import ringHandsClosing from '../../public/imgs/ring-hands.jpg';
 
 // ── Palette: ivory + ink black + sparing champagne ──
@@ -91,6 +92,21 @@ const [opened, setOpened] = useState(false);
 const [introGone, setIntroGone] = useState(false);
 const [introIn, setIntroIn] = useState(false);
 
+// ── Background song ──
+const audioRef = useRef<HTMLAudioElement | null>(null);
+
+useEffect(() => {
+  const audio = new Audio('/imgs/song.mp3');
+  audio.loop = true;
+  audio.volume = 0.5;
+  audio.preload = 'auto';
+  audioRef.current = audio;
+  return () => {
+    audio.pause();
+    audioRef.current = null;
+  };
+}, []);
+
 useEffect(() => {
   const t = setTimeout(() => setIntroIn(true), 120);
   return () => clearTimeout(t);
@@ -110,10 +126,13 @@ useEffect(() => {
 }, [introGone]);
 
 const handleOpen = () => {
+  // Must run inside the click handler so the browser allows playback
+  audioRef.current?.play().catch(() => {});
   setOpened(true);
   window.scrollTo(0, 0);
   setTimeout(() => setIntroGone(true), 1250);
 };
+
 
   // ── Countdown ──
   const weddingDate = new Date('2026-11-01T18:00:00').getTime();
